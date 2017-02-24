@@ -1,5 +1,5 @@
 {
-    "name": "carawebs/wp-settings",
+    "name": "carawebs/wp-plugin-settings",
     "description": "Generate WordPress plugin settings from a config file.",
     "type": "library",
     "license": "GPL2",
