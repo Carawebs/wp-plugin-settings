@@ -6,13 +6,8 @@ namespace Carawebs\Settings;
 */
 abstract class Page
 {
-    public function sanitizeCallback($value)
-    {
-        // Get all values and return them so we don't overwrite fields on a different tab
         // See: https://github.com/NateWr/simple-admin-pages/blob/master/classes/AdminPage.class.php #111
         // ---------------------------------------------------------------------
-    }
-
     public function setPageArgs(array $args)
     {
         $this->config = $args;
@@ -39,6 +34,7 @@ abstract class Page
             $tabs[$section['tab']] = $value;
         }
         $this->tabs = array_unique($tabs);
+        error_log(__FILE__. ", Line: ". __LINE__ . ":\n" . json_encode($this->tabs));
     }
 
     public function tabLinks($currentTab)
@@ -47,16 +43,15 @@ abstract class Page
         foreach ($this->tabs as $name => $tabQueryString) {
             $link
             ?>
-            <a href="?page=<?= $this->pageArguments['unique_page_slug']; ?>&tab=<?= $tabQueryString; ?>" class="nav-tab<?= $this->activeTab($tabQueryString, $currentTab); ?>"><?= $name; ?></a>
+            <a href="?page=<?= $this->pageArguments['unique_page_slug']; ?>&tab=<?= $tabQueryString; ?>" class="nav-tab<?= $this->activeTabClass($tabQueryString, $currentTab); ?>"><?= $name; ?></a>
             <?php
         }
 
         echo ob_get_clean();
     }
 
-    public function activeTab($tabQueryString, $currentTab)
+    public function activeTabClass($tabQueryString, $currentTab)
     {
-        //var_dump($tabQueryString);
         if( ! isset($currentTab)) return;
 
         if ($tabQueryString === $currentTab) {
@@ -65,17 +60,6 @@ abstract class Page
             return;
         }
 
-
-        {
-            if($_GET["tab"] == "header-options")
-            {
-                $active_tab = "header-options";
-            }
-            else
-            {
-                $active_tab = "ads-options";
-            }
-        }
     }
 
 }

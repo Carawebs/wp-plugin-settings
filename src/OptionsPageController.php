@@ -4,7 +4,7 @@ namespace Carawebs\Settings;
 /**
 * Control the registration of new settings in in the {$wpdb->prefix}_options table.
 */
-class OptionsPageController extends Controller
+class OptionsPageController extends PageController
 {
     /**
     * Create a new Settings\Controller instance

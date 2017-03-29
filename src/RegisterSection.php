@@ -21,18 +21,34 @@ class RegisterSection
 
         // add_action( 'admin_init', [$this, 'setupSection'] );
         add_action( 'admin_init', function() {
-            foreach($this->sectionArgs as $section) {
-                if(isset($_GET['tab']) && $_GET['tab'] === preg_replace('/[^A-Za-z0-9-]+/', '-', strtolower($section['tab']))) {
-                    add_settings_section(
-                        $section['id'],
-                        $section['title'],
-                        [$this, 'defineSection'],
-                        $this->pageSlug // THIS MUST BE THE menu_slug AS DEFINED WHEN SETTING UP PAGE.
-                    );
+
+            // If the $_GET['tab'] is set
+            if(isset($_GET['tab'])) {
+                // Loop through the sections and add the correct sections.
+                foreach($this->sectionArgs as $section) {
+                    error_log(__FILE__. ", Line: ". __LINE__ . ":\n" . "Section: " . json_encode($section));
+                    if($_GET['tab'] === preg_replace('/[^A-Za-z0-9-]+/', '-', strtolower($section['tab']))) {
+                        $this->addSettingsSection($section);
+                    }
                 }
+            } else {
+                // Add the first section.
+                reset($this->sectionArgs);
+                $firstSectionKey = key($this->sectionArgs);
+                $firstSection = $this->sectionArgs[$firstSectionKey];
+                $this->addSettingsSection($firstSection);
             }
         });
+    }
 
+    public function addSettingsSection($section)
+    {
+        add_settings_section(
+            $section['id'],
+            $section['title'],
+            [$this, 'defineSection'],
+            $this->pageSlug
+        );
     }
 
     public function setupSection()

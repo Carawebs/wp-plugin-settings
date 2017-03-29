@@ -57,36 +57,6 @@ class RegisterFields extends Fields
         });
     }
 
-    // This must be ALL Fields from ALL sections!
-    // public function setupFields()
-    // {
-    //     foreach ($this->fieldArgs as $sectionID => $fieldsArray) {
-    //
-    //         foreach ($fieldsArray as $key => $field) {
-    //             if (! $this->isFieldTypeValid($field)) {
-    //                 return;
-    //             }
-    //             $args = [
-    //                 'option' => $field['option_name'] ?? NULL,
-    //                 'type' => $field['type'] ?? NULL,
-    //                 'name' => $field['name'] ?? NULL,
-    //                 'desc' => $field['desc'] ?? NULL,
-    //                 'placeholder' => $field['placeholder'] ?? NULL,
-    //                 'title' => $field['title'] ?? NULL,
-    //                 'multi_options' => $field['multi_options'] ?? NULL
-    //             ];
-    //             add_settings_field(
-    //                 $args['name'],
-    //                 $args['title'],
-    //                 [ $this, 'fieldCallback' . ucfirst($args['type']) ],
-    //                 $this->pageSlug,
-    //                 $sectionID, // The section ID
-    //                 $args
-    //             );
-    //         }
-    //     }
-    // }
-
     /**
      * Check that the type of field is allowed.
      *

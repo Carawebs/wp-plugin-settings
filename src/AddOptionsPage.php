@@ -3,6 +3,8 @@ namespace Carawebs\Settings;
 
 /**
 * Control the creation of an Options page (under the Settings menu).
+*
+* @see http://wordpress.stackexchange.com/a/127499
 */
 class AddOptionsPage extends Page
 {
@@ -24,12 +26,20 @@ class AddOptionsPage extends Page
             __( $this->pageArguments['page_title'], 'textdomain' ), // Page Title
             __( $this->pageArguments['menu_title'], 'textdomain' ), // Menu Title
             $this->pageArguments['capability'],                     // Capability
-            $this->pageArguments['unique_page_slug'],                      // ! Menu slug !
+            $this->pageArguments['unique_page_slug'],               // ! Menu slug !
             [$this, 'outputOptionsPage']                            // Callback to render form
         );
 
     }
 
+    /**
+     * Output the Options page HTML.
+     *
+     * Conditionally display the field groups by tag. To display fields on
+     * different tags, their parent section should have a different option group.
+     *
+     * @return string HTML output
+     */
     public function outputOptionsPage()
     {
         ?>
@@ -40,24 +50,19 @@ class AddOptionsPage extends Page
             </h2>
             <form method="post" action="options.php">
                 <?php
-                // settings_fields( $this->optionGroup ); // Must be the option group defined with `register_setting()`
-                // do_settings_sections( $this->pageArguments['unique_page_slug'] );
-                // submit_button();
-                // @see http://wordpress.stackexchange.com/a/127499
-                ?>
-                <?php
-                // @NOTE: Conditionally display the field groups by tag. To display
-                // fields on differen tags, their parent section should have a different
-                // option group.
-                //
-                // @TODO: Work out how to build this programmatically.
-                if( $_GET['tab'] == 'social-media' ) {
-                    settings_fields( 'social' );
+                if (!isset($_GET['tab'])) {
+                    reset($this->tabs);
+                    $firstTabKey = key($this->tabs);
+                    $firstTab = $this->tabs[$firstTabKey];
+                    settings_fields( $firstTab ); // Must be the option group defined with `register_setting()`
                     do_settings_sections( $this->pageArguments['unique_page_slug'] );
-                } else if( $_GET['tab'] == 'main' ) {
-                    settings_fields( 'main' );
-                    do_settings_sections( $this->pageArguments['unique_page_slug'] );
-
+                } else {
+                    foreach ($this->tabs as $tab) {
+                        if ( $_GET['tab'] == $tab ) {
+                            settings_fields( $tab ); // Must be the option group defined with `register_setting()`
+                            do_settings_sections( $this->pageArguments['unique_page_slug'] );
+                        }
+                    }
                 }
                 submit_button();
                 ?>
