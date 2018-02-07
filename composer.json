@@ -2,7 +2,7 @@
     "name": "carawebs/wp-plugin-settings",
     "description": "Generate WordPress plugin settings from a config file.",
     "type": "library",
-    "license": "GPL2",
+    "license": "GPL-2.0-only",
     "authors": [
         {
             "name": "David Egan",
