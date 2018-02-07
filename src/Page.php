@@ -34,7 +34,6 @@ abstract class Page
             $tabs[$section['tab']] = $value;
         }
         $this->tabs = array_unique($tabs);
-        error_log(__FILE__. ", Line: ". __LINE__ . ":\n" . json_encode($this->tabs));
     }
 
     public function tabLinks($currentTab)
